@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FirebaseController;
+use App\Http\Controllers\FirestoreController;
+use App\Http\Controllers\IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +18,11 @@ use App\Http\Controllers\FirebaseController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/firebase', [FirebaseController::class, 'index']);
+Route::get('/firestore', [IndexController::class, 'index']);
+
+// API
+Route::group(['prefix' => 'api', 'as' => 'api.'], function() {
+    Route::get('/firestore', [FirestoreController::class, 'load']);
+    Route::post('/firestore-store', [FirestoreController::class, 'store']);
+    Route::post('/firestore-update', [FirestoreController::class, 'update']);
+});
